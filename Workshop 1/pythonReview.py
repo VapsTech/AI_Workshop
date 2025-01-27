@@ -115,6 +115,7 @@ from sklearn.neighbors import KNeighborsClassifier as knc
 
 knn = knc(n_neighbors= 3) #Initialize Object
 
+'''
 x_data = []
 y_data = []
 
@@ -124,7 +125,7 @@ knn.fit(x_data, y_data)
 #Access method "predict" to predict the testing data
 x_testing = []
 y_prediction = knn.predict(x_testing) 
-
+'''
 #If you are having issues installing the libraries, you can use a 
 #virtual environment by typing the following commands:
 
@@ -132,4 +133,3 @@ y_prediction = knn.predict(x_testing)
 #2.1) "source myenv/bin/activate" - MacOS/Linux - activates the virtual environment
 #2.2) "myenv\Scripts\activate" - Windows - activates the virtual environment
 #3) "pip install scikit-learn" - Install scikit-learn in the virtual environment
-
