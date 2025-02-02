@@ -1,7 +1,7 @@
 '''
 Workshop #2 - AI Foundations
 
-Welcome again! This is code used in the second workshop. Here, you will see one of most 
+Welcome again! This is the code used in the second workshop. Here, you will see one of most 
 used Machine Learning Models called K-Nearest-Neighbors.
 
 As always, feel free to play around with this code :)
@@ -20,7 +20,7 @@ import matplotlib.pyplot as plt
 #Remeber to Install the libraries using "pip install <library>" to be able to access them
 
 #1) IMPORTING THE DATA ------------------------------------------------------------------
-df = pd.read_csv('Workshop 2/supervised_learning/data.csv')
+df = pd.read_csv('Workshop 2/supervised_learning/data.csv') #df stands for DataFrame
 
 print("Rows and Columns:", df.shape) #Get total number of rows and columns
 print("-" * 100)
@@ -60,8 +60,17 @@ print("Columns after Enconding:", df[categorical_features])
 print("-" * 100)
 
 #2.3) Scaling Our Data
+#We need to scale our data to adjust proportionally their values to a certain common range (Like from 0 to 1)
+#so no feature/column with different range can bias our model
+minmax_scaler = MinMaxScaler()
 
+scaled_data = minmax_scaler.fit_transform(df) #Calculate and Scale the new set of data with a common range (from to 0 to 1)
 
+scaled_df = pd.DataFrame(scaled_data, columns= df.columns) #Create a new DataFrame with the scaled data
+
+print("New Scaled DataFrame after Scaling the data", scaled_df)
+print("-" * 100)
 #3) Training the Data -------------------------------------------------------------------
+
 
 #4) Predicting the Data  ----------------------------------------------------------------
