@@ -83,7 +83,7 @@ y = scaled_df['Churn'] #Target Column
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size= 0.3, random_state= 42)
 #3) TRAINING DATA -------------------------------------------------------------------
 
-#In this case, we are using 3 neighbors to our model
+#In this case, we are using 5 neighbors to our model
 knn = KNeighborsClassifier(n_neighbors= 5, weights= 'distance', metric= 'manhattan')
 
 knn.fit(x_train, y_train) #Train the Data
