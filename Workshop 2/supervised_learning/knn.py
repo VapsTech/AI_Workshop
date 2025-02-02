@@ -13,9 +13,12 @@ Use this to learn and remember to always have fun!
 #2. Pandas - Used for Data Handling
 #3. Matplotlib - Used for Data Visualization
 from sklearn.preprocessing import MinMaxScaler, LabelEncoder #Importing Preprocessing Tools
-from sklearn.neighbors import KNeighborsClassifier #Importing Model
+from sklearn.model_selection import train_test_split #Tool to Split the Data into Training and Testing 
+from sklearn.neighbors import KNeighborsClassifier #Importing our Model
+import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt 
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay #Used to see data results
 
 #Remeber to Install the libraries using "pip install <library>" to be able to access them
 
@@ -70,7 +73,44 @@ scaled_df = pd.DataFrame(scaled_data, columns= df.columns) #Create a new DataFra
 
 print("New Scaled DataFrame after Scaling the data", scaled_df)
 print("-" * 100)
-#3) Training the Data -------------------------------------------------------------------
 
+#2.4) Spliting the Data into Training and Testing Data
+x = scaled_df.drop(columns= ['Churn']) #Features
+y = scaled_df['Churn'] #Target Column
 
-#4) Predicting the Data  ----------------------------------------------------------------
+#Now, since we have a large DataSet, we can split it into a training dataset and a testing dataset, and
+#for that, the parameter "test_size" will take, in this case, 30% of our data to be testing and 70% for training
+x_train, x_test, y_train, y_test = train_test_split(x, y, test_size= 0.3, random_state= 42)
+#3) TRAINING DATA -------------------------------------------------------------------
+
+#In this case, we are using 3 neighbors to our model
+knn = KNeighborsClassifier(n_neighbors= 5, weights= 'distance', metric= 'manhattan')
+
+knn.fit(x_train, y_train) #Train the Data
+
+#4) PREDICTING DATA  ----------------------------------------------------------------
+
+y_predict = knn.predict(x_test) #Predict the Testing data
+
+#Get Accuracy of our Model
+points = 0
+size = len(y_test)
+for index in range(size):
+    if y_test.iloc[index] == y_predict[index]: #If we match the same value for the row, we increase our points
+        points += 1
+
+accuracy = points / size #Divide the number of values we predicted correctly with the total number of values in the test
+
+print(f"Accuracy of our KNN model: {accuracy * 100:.2f}%")
+print("-" * 100)
+
+#5) PLOTTING OUR RESULTS -----------------------------------------------------------------
+
+# Compute confusion matrix
+cm = confusion_matrix(y_test, y_predict) #Here, we use the actual values (y_test) and the values we predicted (y_predict)
+
+# Display confusion matrix
+disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=["No Churn", "Churn"])
+disp.plot(cmap= "Purples")
+plt.title("Confusion Matrix of KNN Model")
+plt.show()
