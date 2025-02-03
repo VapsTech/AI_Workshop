@@ -74,22 +74,22 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, test_size= 0.3, random
 #3) TRAINING DATA -----------------------------------------------------------------------
 
 clf = DecisionTreeClassifier(criterion= 'gini', max_depth= 4, min_samples_split= 2,min_samples_leaf= 2, 
-                            max_features= df.shape[1])
+                            max_features= df.shape[1]) #You can try adding or adjusting the parameters to make a better model!
 
-clf.fit(x_train, y_train)
+clf.fit(x_train, y_train) #Train
 
-y_predicted = clf.predict(x_test)
+y_predicted = clf.predict(x_test) #Predict Testing Data
 
 #4) PREDICTING DATA ---------------------------------------------------------------------
 
-accuracy = precision_score(y_test, y_predicted)
+accuracy = precision_score(y_test, y_predicted) #Compare predictions with the actual data
 
 print(f"Accuracy of our Decision Tree model: {accuracy * 100:.2f}%")
 print("-" * 100)
 
 #5) PLOTTING RESULTS --------------------------------------------------------------------
 
-plt.figure(figsize=(15,10))  # Adjust the size for better visualization
+plt.figure(figsize=(15,10))
 plot_tree(clf, filled= True, feature_names= df.columns, class_names= ['No Churn', 'Churn'], 
           rounded=True, proportion=False)
 
