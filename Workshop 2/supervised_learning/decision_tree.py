@@ -1,8 +1,8 @@
 '''
-Workshop #2.1 - AI Foundations
+Workshop #2.2 - AI Foundations
 
-Welcome again! This is the code used in the second workshop. Here, you will see one of most 
-used Machine Learning Models called K-Nearest-Neighbors.
+Welcome again! This is the code used in the second workshop. Here, you will see another 
+Machine Learning Model called Decision Tree model.
 
 As always, feel free to play around with this code :)
 
@@ -12,13 +12,14 @@ Use this to learn and remember to always have fun!
 #1. scikit-learn - Used to create our Machine Learning Model
 #2. Pandas - Used for Data Handling
 #3. Matplotlib - Used for Data Visualization
-from sklearn.preprocessing import MinMaxScaler, LabelEncoder #Importing Preprocessing Tools
+from sklearn.preprocessing import LabelEncoder #Importing Preprocessing Tools
 from sklearn.model_selection import train_test_split #Tool to Split the Data into Training and Testing 
-from sklearn.neighbors import KNeighborsClassifier #Importing our Model
+from sklearn.tree import DecisionTreeClassifier #Importing our Decision Tree model
+from sklearn.tree import plot_tree #To visualize the our Tree Model
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt 
-from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay #Used to see data results
+from sklearn.metrics import precision_score #Used to see data results
 
 #Remeber to Install the libraries using "pip install <library>" to be able to access them
 
@@ -62,55 +63,35 @@ for column in categorical_features:
 print("Columns after Enconding:", df[categorical_features])
 print("-" * 100)
 
-#2.3) Scaling Our Data
-#We need to scale our data to adjust proportionally their values to a certain common range (Like from 0 to 1)
-#so no feature/column with different range can bias our model
-minmax_scaler = MinMaxScaler()
-
-scaled_data = minmax_scaler.fit_transform(df) #Calculate and Scale the new set of data with a common range (from to 0 to 1)
-
-scaled_df = pd.DataFrame(scaled_data, columns= df.columns) #Create a new DataFrame with the scaled data
-
-print("New Scaled DataFrame after Scaling the data", scaled_df)
-print("-" * 100)
-
-#2.4) Spliting the Data into Training and Testing Data
-x = scaled_df.drop(columns= ['Churn']) #Features
-y = scaled_df['Churn'] #Target Column
+#2.3) Spliting the Data into Training and Testing Data
+x = df.drop(columns= ['Churn']) #Features
+y = df['Churn'] #Target Column
 
 #Now, since we have a large DataSet, we can split it into a training dataset and a testing dataset, and
 #for that, the parameter "test_size" will take, in this case, 30% of our data to be testing and 70% for training
 x_train, x_test, y_train, y_test = train_test_split(x, y, test_size= 0.3, random_state= 42)
-#3) TRAINING DATA -------------------------------------------------------------------
 
-#In this case, we are using 5 neighbors to our model
-knn = KNeighborsClassifier(n_neighbors= 5, weights= 'distance', metric= 'euclidean')
+#3) TRAINING DATA -----------------------------------------------------------------------
 
-knn.fit(x_train, y_train) #Train the Data
+clf = DecisionTreeClassifier(criterion= 'gini', max_depth= 4, min_samples_split= 2,min_samples_leaf= 2, 
+                            max_features= df.shape[1])
 
-#4) PREDICTING DATA  ----------------------------------------------------------------
+clf.fit(x_train, y_train)
 
-y_predict = knn.predict(x_test) #Predict the Testing data
+y_predicted = clf.predict(x_test)
 
-#Get Accuracy of our Model
-points = 0
-size = len(y_test)
-for index in range(size):
-    if y_test.iloc[index] == y_predict[index]: #If we match the same value for the row, we increase our points
-        points += 1
+#4) PREDICTING DATA ---------------------------------------------------------------------
 
-accuracy = points / size #Divide the number of values we predicted correctly with the total number of values in the test
+accuracy = precision_score(y_test, y_predicted)
 
-print(f"Accuracy of our KNN model: {accuracy * 100:.2f}%")
+print(f"Accuracy of our Decision Tree model: {accuracy * 100:.2f}%")
 print("-" * 100)
 
-#5) PLOTTING OUR RESULTS -----------------------------------------------------------------
+#5) PLOTTING RESULTS --------------------------------------------------------------------
 
-# Compute confusion matrix
-cm = confusion_matrix(y_test, y_predict) #Here, we use the actual values (y_test) and the values we predicted (y_predict)
+plt.figure(figsize=(15,10))  # Adjust the size for better visualization
+plot_tree(clf, filled= True, feature_names= df.columns, class_names= ['No Churn', 'Churn'], 
+          rounded=True, proportion=False)
 
-# Display confusion matrix
-disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=["No Churn", "Churn"])
-disp.plot(cmap= "Purples")
-plt.title("Confusion Matrix of KNN Model")
+plt.title("Decision Tree Classifier Visualization")
 plt.show()
