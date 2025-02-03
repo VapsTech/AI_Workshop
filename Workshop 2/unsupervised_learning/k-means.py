@@ -9,34 +9,35 @@ As always, feel free to play around with this code :)
 
 Use this to learn and remember to always have fun!
 '''
-import pandas as pd
-import matplotlib.pyplot as plt
-from sklearn.cluster import KMeans
+import pandas as pd #Library to Work with Data
+import matplotlib.pyplot as plt #Library to plot our Results
+from sklearn.cluster import KMeans #Library that contains our ML model
 
-# Step 1: Creating a DataFrame manually with customer data
-# data = {
-#     'Customer': ['Alice', 'Bob', 'Charlie', 'David', 'Emma', 'Frank', 'Grace', 'Helen', 'Ian', 'Jack',
-#                  'Kate', 'Leo', 'Mona', 'Nina', 'Oscar', 'Paul', 'Quinn', 'Rose', 'Steve', 'Tom'],
-#     'Annual Spending ($)': [500, 700, 1200, 1500, 1800, 2200, 3000, 3400, 4000, 4500,
-#                             5200, 6000, 6500, 7000, 7500, 8000, 8500, 9000, 9500, 10000],
-#     'Monthly Visits': [1, 2, 3, 3, 4, 5, 6, 6, 7, 8,
-#                        9, 10, 10, 11, 12, 12, 13, 14, 15, 16]
-# }
+#1) IMPORTING THE DATA ------------------------------------------------------------------
+data = {
+    'Customer': ['Alice', 'Bob', 'Charlie', 'David', 'Emma', 'Frank', 'Grace', 'Helen', 'Ian', 'Jack',
+                 'Kate', 'Leo', 'Mona', 'Nina', 'Oscar', 'Paul', 'Quinn', 'Rose', 'Steve', 'Tom'],
+    'Monthly Visits': [1, 2, 3, 3, 4, 5, 9, 13, 11, 12,
+                       14, 28, 21, 26, 20, 24, 28, 29, 35, 37],
+    'Annual Spending ($)': [500, 700, 1200, 1500, 1850, 1250, 3000, 3400, 4000, 4500,
+                            5200, 6000, 6500, 7000, 8200, 7700, 7900, 8300, 9500, 8700]
+}
 
 df = pd.DataFrame(data)  # Convert dictionary to pandas DataFrame
 
-# Step 2: Applying K-Means Clustering
+#2) TRAINING DATA -----------------------------------------------------------------------
 kmeans = KMeans(n_clusters=3, random_state=42)
 
-df['Cluster'] = kmeans.fit_predict(df[['Annual Spending ($)', 'Monthly Visits']])
+#3) PREDICTING DATA ---------------------------------------------------------------------
+df['Cluster'] = kmeans.fit_predict(df[['Monthly Visits', 'Annual Spending ($)']])
 
-# Step 3: Visualizing the Clusters
+#4) PLOTTING RESULTS --------------------------------------------------------------------
 plt.figure(figsize=(8, 6))
-plt.scatter(df['Annual Spending ($)'], df['Monthly Visits'], c=df['Cluster'], cmap='viridis', edgecolors='k')
+plt.scatter(df['Monthly Visits'], df['Annual Spending ($)'], c= df['Cluster'], cmap='viridis', edgecolors='k')
 plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], 
             c='red', marker='X', s=200, label='Centroids')
-plt.xlabel('Annual Spending ($)')
-plt.ylabel('Monthly Visits')
+plt.xlabel('Monthly Visits')
+plt.ylabel('Annual Spending ($)')
 plt.title('Customer Segmentation Using K-Means')
 plt.legend()
 plt.show()
