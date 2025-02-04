@@ -29,13 +29,17 @@ df = pd.DataFrame(data)  # Convert dictionary to pandas DataFrame
 kmeans = KMeans(n_clusters=3, random_state=42)
 
 #3) PREDICTING DATA ---------------------------------------------------------------------
-df['Cluster'] = kmeans.fit_predict(df[['Monthly Visits', 'Annual Spending ($)']])
+cluster = kmeans.fit_predict(df[['Monthly Visits', 'Annual Spending ($)']])
 
 #4) PLOTTING RESULTS --------------------------------------------------------------------
 plt.figure(figsize=(8, 6))
-plt.scatter(df['Monthly Visits'], df['Annual Spending ($)'], c= df['Cluster'], cmap='viridis', edgecolors='k')
-plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], 
-            c='red', marker='X', s=200, label='Centroids')
+
+plt.scatter(df['Monthly Visits'], df['Annual Spending ($)']) #Plotting Data without Clusters (make sure to uncomment this)
+
+plt.scatter(df['Monthly Visits'], df['Annual Spending ($)'], c= cluster, cmap='viridis', edgecolors='k')
+plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], c='red', marker='X', s=200, label='Centroids')
+
+#Plotting Details
 plt.xlabel('Monthly Visits')
 plt.ylabel('Annual Spending ($)')
 plt.title('Customer Segmentation Using K-Means')
