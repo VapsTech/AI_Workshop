@@ -73,7 +73,7 @@ x_train, x_test, y_train, y_test = train_test_split(x, y, test_size= 0.3, random
 
 #3) TRAINING DATA -----------------------------------------------------------------------
 
-clf = DecisionTreeClassifier(criterion= 'gini', max_depth= 4, min_samples_split= 2,min_samples_leaf= 2, 
+clf = DecisionTreeClassifier(criterion= 'gini', max_depth= 4, min_samples_split= 2,min_samples_leaf= 2,
                             max_features= df.shape[1]) #You can try adding or adjusting the parameters to make a better model!
 
 clf.fit(x_train, y_train) #Train

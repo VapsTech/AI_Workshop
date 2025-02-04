@@ -17,7 +17,7 @@ IMPORTANT: I, Victor, did NOT write this model! I got this from: https://github.
 # packages
 from copy import deepcopy
 from mcts import *
-from pyfirmata import Arduino, util
+from pyfirmata import Arduino
 
 # Tic Tac Toe board class
 class Board():
@@ -46,6 +46,10 @@ class Board():
             for col in range(3):
                 # set every board square to empty square
                 self.position[row, col] = self.empty_square
+        
+        # Reset Arduino Board from pin 10 to 27
+        for pin in range(10, 28):
+            arduino.digital[pin].write(0)
     
     # make move
     def make_move(self, row, col):
