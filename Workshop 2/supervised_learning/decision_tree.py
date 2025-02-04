@@ -89,7 +89,7 @@ print("-" * 100)
 
 #5) PLOTTING RESULTS --------------------------------------------------------------------
 
-plt.figure(figsize=(15,10))
+plt.figure(figsize=(25,15))
 plot_tree(clf, filled= True, feature_names= df.columns, class_names= ['No Churn', 'Churn'], 
           rounded=True, proportion=False)
 
