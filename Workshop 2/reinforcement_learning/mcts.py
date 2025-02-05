@@ -53,8 +53,8 @@ class MCTS():
         # create root node
         self.root = TreeNode(initial_state, None)
 
-        # walk through n number of iterations
-        number_of_training = 1000
+        # CHANGE HERE: Walk through n number of iterations/training
+        number_of_training = 1000 
         for iteration in range(number_of_training):
             # select a node (selection phase)
             node = self.select(self.root)

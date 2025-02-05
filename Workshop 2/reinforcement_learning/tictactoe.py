@@ -17,7 +17,6 @@ IMPORTANT: I, Victor, did NOT write this model! I got this from: https://github.
 # packages
 from copy import deepcopy
 from mcts import *
-from pyfirmata import Arduino
 
 # Tic Tac Toe board class
 class Board():
@@ -47,18 +46,14 @@ class Board():
                 # set every board square to empty square
                 self.position[row, col] = self.empty_square
         
-        # Reset Arduino Board from pin 10 to 27
-        for pin in range(10, 28):
-            arduino.digital[pin].write(0)
     
     # make move
     def make_move(self, row, col):
-        # create new board instance that inherits from the current state
         board = Board(self)
         
         # make move
         board.position[row, col] = self.player_1
-        
+
         # swap players
         (board.player_1, board.player_2) = (board.player_2, board.player_1)
     
@@ -203,7 +198,9 @@ class Board():
             user_input = input('> ')
         
             # escape condition
-            if user_input == 'exit': break
+            if user_input == 'exit': 
+                exit()
+                break
             
             # skip empty input
             if user_input == '': continue
@@ -231,11 +228,11 @@ class Board():
                 try:
                     # make AI move here
                     self = best_move.board
-                
+
                 # game over
                 except:
                     pass
-                
+                             
                 # print board
                 print(self)
                 
@@ -265,10 +262,6 @@ class Board():
             for col in range(3):
                 board_string += ' %s' % self.position[row, col]
 
-                arduino(row, col)
-                
-                #Call arduino Function
-
             # print new line every row
             board_string += '\n'
         
@@ -282,60 +275,9 @@ class Board():
         # return board string
         return board_string
 
-    def arduino(self, row, col) -> None:
-        #--------------'x' PLAYER--------------
-        if self.position[row, col] == 'x':
-            if col == 1:
-                if row == 1:
-                    arduino.digital[10].write(1)
-                elif row == 2:
-                    arduino.digital[11].write(1)
-                else:
-                    arduino.digital[12].write(1)
-
-            elif col == 2:
-                if row == 1:
-                    arduino.digital[13].write(1)
-                elif row == 2:
-                    arduino.digital[14].write(1)
-                else:
-                    arduino.digital[15].write(1)
-            else:
-                if row == 1:
-                    arduino.digital[16].write(1)
-                elif row == 2:
-                    arduino.digital[17].write(1)
-                else:
-                    arduino.digital[18].write(1)
-        #--------------'o' PLAYER--------------
-        else:
-            if col == 1:
-                if row == 1:
-                    arduino.digital[19].write(1)
-                elif row == 2:
-                    arduino.digital[20].write(1)
-                else:
-                    arduino.digital[21].write(1)
-
-            elif col == 2:
-                if row == 1:
-                    arduino.digital[22].write(1)
-                elif row == 2:
-                    arduino.digital[23].write(1)
-                else:
-                    arduino.digital[24].write(1)
-            else:
-                if row == 1:
-                    arduino.digital[25].write(1)
-                elif row == 2:
-                    arduino.digital[26].write(1)
-                else:
-                    arduino.digital[27].write(1)
 
 # main driver
 if __name__ == '__main__':
-    arduino = Arduino('/dev/tty.usbserial-A6008rIF') #NEED TO FIND MY PORT
-
     # create board instance
     board = Board()
     
