@@ -33,10 +33,12 @@ data = {
 #4) PLOTTING RESULTS --------------------------------------------------------------------
 plt.figure(figsize=(8, 6))
 
-plt.scatter(df['Monthly Visits'], df['Annual Spending ($)']) #Plotting Data without Clusters (make sure to uncomment this)
+#Uncomment This line of code to plot the Graph WITHOUT the Clusters
+# plt.scatter(df['Monthly Visits'], df['Annual Spending ($)']) #Plotting Data without Clusters (make sure to uncomment this)
 
-plt.scatter(df['Monthly Visits'], df['Annual Spending ($)'], c= cluster, cmap='viridis', edgecolors='k')
-plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], c='red', marker='X', s=200, label='Centroids')
+#Uncomment This code to plot the Graph WITH the Clusters
+# plt.scatter(df['Monthly Visits'], df['Annual Spending ($)'], c= cluster, cmap='viridis', edgecolors='k')
+# plt.scatter(kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], c='red', marker='X', s=200, label='Centroids')
 
 #Plotting Details
 plt.xlabel('Monthly Visits')
