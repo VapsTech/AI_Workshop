@@ -22,4 +22,3 @@ In the second workshop, we cover the essential concepts and models for Machine L
 - K-means Model
 - Reinforcement Learning
 - K-Nearest-Neighbors Model
-- Decision Tree Model
