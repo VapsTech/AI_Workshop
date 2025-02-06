@@ -6,7 +6,8 @@ be using the MCTS Reinforcement Learning algorithm from the "mcts.py" file
 to create a AI that can play the game with us!
 
 In this code, I include a piece of Code to connect this game with an Arduino so
-we could play in Real Life!
+we could play in Real Life! But if you run this code, you will be able to play yourself
+using the terminal!
 
 As always, feel free to play around with this code :)
 
