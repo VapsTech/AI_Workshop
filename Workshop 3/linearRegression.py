@@ -83,6 +83,7 @@ print("Shape after Removing the Outliers:", df.shape)
 
 #Here, I decided to remove just the furnishingstatus column
 df.drop(columns= ['furnishingstatus'], axis= 1, inplace= True)
+print("Shape after removing unnecessary Column(s):", df.shape)
 
 #2.3) Encoding Categorical Features
 #Explanation: In a Machine Learning Model, we can't work with categirical data (words like "yes" and "no"), 
