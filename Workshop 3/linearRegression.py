@@ -8,6 +8,19 @@ As always, feel free to play around with this code :)
 
 Use this to learn and remember to always have fun!
 '''
+#If you are on MacOS, you can try creating a virtual environmnet 
+#to avoid installation issues with the libraries
+#Follow the Commands:
+#1) python3 -m venv .myenv
+#2) source .myenv/bin/activate
+
+#Libraries to Install:
+#1) pip install numpy
+#2) pip install pandas
+#3) pip install scikit-learn
+#4) pip install matplotlib
+#5) pip install seaborn
+
 import numpy as np
 import pandas as pd
 from sklearn.preprocessing import LabelEncoder
