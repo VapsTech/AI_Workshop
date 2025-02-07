@@ -1,8 +1,8 @@
 '''
 Workshop #3 - Linear Regression & Neural Networks
 
-Welcome again! This is the code used in the second workshop. Here, you will see one of most 
-used Machine Learning Models called K-Nearest-Neighbors.
+Welcome again! This is the code used in the third workshop. Here, you will see one of
+most important Machine Learning model using statistics called Linear Regression!
 
 As always, feel free to play around with this code :)
 
@@ -71,7 +71,7 @@ print("Shape after Removing the Outliers:", df.shape)
 #Here, I decided to remove just the furnishingstatus column
 df.drop(columns= ['furnishingstatus'], axis= 1, inplace= True)
 
-#2.2) Encoding Categorical Features
+#2.3) Encoding Categorical Features
 #Explanation: In a Machine Learning Model, we can't work with categirical data (words like "yes" and "no"), 
 # that's why we need to turn them into numbers (like 1 and 0)
 
@@ -87,12 +87,12 @@ le = LabelEncoder()
 for categorical in categorical_columns:
     df[categorical] = le.fit_transform(df[categorical]) #Turning Yes/No into 1/0
 
-#2.3) Splitting the Data into Training Data and Testing Data
+#2.4) Splitting the Data into Training Data and Testing Data
 
 #In this case, 70% of the whole data will be training data and 30% will be testing data
 df_train, df_test = train_test_split(df, train_size = 0.7, test_size = 0.3, random_state = 100)
 
-#2.4) Scaling Our Data
+#2.5) Scaling Our Data
 #Explanation:
 
 scaler = MinMaxScaler()
