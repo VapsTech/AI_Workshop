@@ -103,11 +103,13 @@ for categorical in categorical_columns:
 
 #2.4) Splitting the Data into Training Data and Testing Data
 
-#In this case, 70% of the whole data will be training data and 30% will be testing data
-df_train, df_test = train_test_split(df, train_size = 0.7, test_size = 0.3, random_state = 100)
+#In this case, 80% of the whole data will be training data and 20% will be testing data
+df_train, df_test = train_test_split(df, train_size = 0.8, test_size = 0.2, random_state = 100)
 
 #2.5) Scaling Our Data
-#Explanation:
+#Explanation: some features have different ranges of values like one going from 100_000 to 1_000_000, and 
+#another feature going from 0 to 1 only! So we adjust these values to put them in the SAME scale! Otherwise,
+#our model can be very biased
 
 scaler = MinMaxScaler()
 
