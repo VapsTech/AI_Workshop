@@ -27,7 +27,7 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.linear_model import LinearRegression
-from sklearn.metrics import r2_score
+from sklearn.metrics import r2_score, mean_squared_error
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -138,6 +138,9 @@ y_prediction = model.predict(x_test)
 #5) RESULTS & EVALUATION OF OUR MODEL ---------------------------------------------------
 accuracy = r2_score(y_test, y_prediction)
 print("r^2 Score =", accuracy)
+
+mse = mean_squared_error(y_test, y_prediction)
+print("Mean Squared Error =", mse)
 
 plt.figure(figsize=(8, 6))
 plt.scatter(y_test, y_prediction, alpha=0.5, color='blue', label="Predicted vs Actual")
