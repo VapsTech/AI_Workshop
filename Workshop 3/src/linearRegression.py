@@ -136,8 +136,8 @@ y_test = df_test['price']
 y_prediction = model.predict(x_test)
 
 #5) RESULTS & EVALUATION OF OUR MODEL ---------------------------------------------------
-accuracy = r2_score(y_test, y_prediction)
-print("r^2 Score =", accuracy)
+r2 = r2_score(y_test, y_prediction)
+print("r^2 Score =", r2)
 
 mse = mean_squared_error(y_test, y_prediction)
 print("Mean Squared Error =", mse)

@@ -18,8 +18,16 @@ from sklearn.model_selection import train_test_split
 import matplotlib.pyplot as plt
 from sklearn.metrics import r2_score, mean_squared_error
 
-df = pd.read_csv('Workshop 3/data/data.csv')
+#1) IMPORTING DATA ----------------------------------------------------------------------
+data = pd.read_csv('Workshop 3/data/data.csv')
 
+df = pd.DataFrame(data)
+
+#2) DATA HANDLING -----------------------------------------------------------------------
+
+#2.1) Removing Outliers
+#Explanation: Since we are trying to build a line, outliers in the data can directly affect the
+#calucations for the line, so we need to remove them first
 print("Original Shape:", df.shape)
 
 Q1 = df['price'].quantile(0.25)
@@ -41,23 +49,39 @@ for index, area in df['area'].items():
         outlier.append(index)
 
 df.drop(outlier, axis= 0, inplace= True)
-df.drop(columns= ['furnishingstatus'], 
-        axis= 1, inplace= True)
 
 print("Shape after Removing the Outliers:", df.shape)
 
+#2.2) Removing Unnecessary Columns
+#Explanation: Sometimes, some columns in our Data may not place a huge difference in the result,
+#and this allows us to remove them to avoid more work or bad results
+
+#Here, I decided to remove just the furnishingstatus column
+df.drop(columns= ['furnishingstatus'], axis= 1, inplace= True)
+print("Shape after removing unnecessary Column(s):", df.shape)
+
+#2.3) Encoding Categorical Features
+#Explanation: In a Machine Learning Model, we can't work with categirical data (words like "yes" and "no"), 
+# that's why we need to turn them into numbers (like 1 and 0)
+
 categorical_columns = []
+
+#Let's first get all the columns that have strings instead of numbers
 for column in df:
     if df[column].dtype == object:
         categorical_columns.append(column)
+
 le = LabelEncoder()
-for column in categorical_columns:
-    df[column] = le.fit_transform(df[column])
 
+for categorical in categorical_columns:
+    df[categorical] = le.fit_transform(df[categorical]) #Turning Yes/No into 1/0
 
-#Training data
+#2.4) Splitting the Data into Training Data and Testing Data
+
+#In this case, 80% of the whole data will be training data and 20% will be testing data
 df_train, df_test = train_test_split(df, train_size = 0.8, test_size = 0.2, random_state = 100)
 
+#3) CREATING OUR NEURAL NETWORK ---------------------------------------------------------
 
 def conjugate_gradient(x0, Q,b, tole= 1e-6, max_iter= 10000):
   x = x0.copy()
@@ -78,6 +102,12 @@ def conjugate_gradient(x0, Q,b, tole= 1e-6, max_iter= 10000):
     k += 1
   return x
 
+def predict(X, x_star):
+  X_with_intercept = np.c_[np.ones((len(X), 1)), X]
+  return np.dot(X_with_intercept, x_star)
+
+#4) TRAINING OUR DATA -------------------------------------------------------------------
+
 x_train = df_train.drop(columns= ['price'], axis= 1)
 y_train = df_train['price']
 
@@ -87,18 +117,19 @@ a = A.transpose() @ A
 ab = A.transpose() @ y_train
 
 x_star = conjugate_gradient(np.zeros(len(A[0])), a, ab)
-##print(x_star)
-def predict(X, x_star):
-  X_with_intercept = np.c_[np.ones((len(X), 1)), X]
-  return np.dot(X_with_intercept, x_star)
+
+
+#5) PREDICTING DATA ---------------------------------------------------------------------
 
 x_test = df_test.drop(columns= ['price'], axis= 1)
 y_test = df_test['price']
 
 y_predicted = predict(x_test, x_star)
 
+#6) RESULTS & EVALUATION OF OUR MODEL ---------------------------------------------------
+
 r2 = r2_score(y_test, y_predicted)
-print(f"R^2 Score = {r2}")
+print("R^2 Score =", r2)
 
 plt.figure(figsize=(8, 6))
 plt.scatter(y_test, y_predicted, alpha=0.5, color='blue', label="Predicted vs Actual")
