@@ -22,3 +22,12 @@ In the second workshop, we cover the essential concepts and models for Machine L
 - K-means Model
 - Reinforcement Learning
 - K-Nearest-Neighbors Model
+
+## Workshop 3: Linear Regression & Neural Networks
+### Overview:
+In the third workshop, we cover a essential model in Machine Learning called Linear Regression. Then, we implement this model in a House Price Predictor. After that, we introduce concepts for Neural Networks and implement this model in the House Price Predictor. This includes topics such as:
+
+- Linear Regression
+- House Price Predictor using Linear Regression
+- Intro to Neural Networks
+- Implementing Neural Networks in the House Price Predictor
