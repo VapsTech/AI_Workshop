@@ -29,7 +29,7 @@ from sklearn.preprocessing import MinMaxScaler
 from sklearn.linear_model import LinearRegression
 from sklearn.metrics import r2_score, mean_squared_error
 import matplotlib.pyplot as plt
-import seaborn as sns
+import seaborn as sns # type: ignore
 
 #1) IMPORTING DATA ----------------------------------------------------------------------
 data = pd.read_csv('Workshop 3/data/data.csv')
