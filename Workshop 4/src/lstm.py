@@ -5,36 +5,33 @@ import tensorflow as tf
 from tensorflow.keras.models import Sequential # type: ignore
 from tensorflow.keras.layers import LSTM, Dense, Dropout # type: ignore
 
-#1) IMPORTING DATA 
-data = pd.read_csv('Workshop 4/data/stocks_data.csv')
+def lstm_train_predict(x_train, y_train, x_test, y_test):
+    # Scale the data
+    scaler_X = StandardScaler()
+    scaler_Y = StandardScaler()
 
-df = pd.DataFrame(data)
+    X_train_scaled = scaler_X.fit_transform(x_train)
+    X_test_scaled = scaler_X.transform(x_test)
 
-features = ['open', 'high', 'low', 'volume', 'return', 'rolling_mean', 'rolling_std']
-target = 'close'
+    Y_train_scaled = scaler_Y.fit_transform(y_train.values.reshape(-1, 1))
 
-X = df[features]
-Y = df[target]
+    X_train_scaled = X_train_scaled.reshape(X_train_scaled.shape[0], X_train_scaled.shape[1], 1)
+    X_test_scaled = X_test_scaled.reshape(X_test_scaled.shape[0], X_test_scaled.shape[1], 1)
 
-X_train, X_test, Y_train, Y_test = train_test_split(X, Y, test_size=0.2, random_state=42)
+    model = Sequential()
+    model.add(LSTM(100, activation='sigmoid', return_sequences=True, input_shape=(X_train_scaled.shape[1], 1)))
+    model.add(Dropout(0.2))
+    model.add(LSTM(100, activation='sigmoid'))
+    model.add(Dropout(0.2))
+    model.add(Dense(1))
+    model.compile(optimizer='adam', loss='mse')
 
-scaler = StandardScaler()
+    # Fit/Train the model
+    model.fit(X_train_scaled, Y_train_scaled, epochs=50, batch_size=32)
 
-X_train_scaled = scaler.fit_transform(X_train)
-X_test_scaled = scaler.transform(X_test)
+    # Predictions
+    predictions_scaled = model.predict(X_test_scaled)
+    # Inverse the scaling to Orignal Values
+    predictions = scaler_Y.inverse_transform(predictions_scaled)
 
-X_train_scaled = X_train_scaled.reshape(X_train_scaled.shape[0], X_train_scaled.shape[1], 1)
-X_test_scaled = X_test_scaled.reshape(X_test_scaled.shape[0], X_test_scaled.shape[1], 1)
-
-model = Sequential()
-model.add(LSTM(100, activation='relu', return_sequences=True, input_shape=(X_train_scaled.shape[1], 1)))
-model.add(Dropout(0.2))
-model.add(LSTM(100, activation='relu'))
-model.add(Dropout(0.2))
-model.add(Dense(1))
-model.compile(optimizer='adam', loss='mse')
-
-model.fit(X_train_scaled, Y_train, epochs=50, batch_size=32, validation_data=(X_test_scaled, Y_test))
-
-model.predict(X_test_scaled)
-
+    return predictions
