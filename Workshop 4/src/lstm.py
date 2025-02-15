@@ -1,11 +1,10 @@
 import pandas as pd
 from sklearn.preprocessing import StandardScaler
-from sklearn.model_selection import train_test_split
 import tensorflow as tf
 from tensorflow.keras.models import Sequential # type: ignore
 from tensorflow.keras.layers import LSTM, Dense, Dropout # type: ignore
 
-def lstm_train_predict(x_train, y_train, x_test, y_test):
+def lstm_train_predict(x_train, y_train, x_test):
     # Scale the data
     scaler_X = StandardScaler()
     scaler_Y = StandardScaler()
