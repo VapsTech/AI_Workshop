@@ -107,7 +107,13 @@ print(f"LSTM Average R2 Score: {lstm_r2:.4f}")
 print(f"LSTM Average Mean Squared Error: {lstm_mse:.4f}")
 
 # Random Forest Average Results
-lstm_r2 = np.mean(results['randomForest_r2'])
-lstm_mse = np.mean(results['randomForest_mse'])
-print(f"Random Forest Average R2 Score: {lstm_r2:.4f}")
-print(f"Random Forest Average Mean Squared Error: {lstm_mse:.4f}")
+randomForest_r2 = np.mean(results['randomForest_r2'])
+randomForest_mse = np.mean(results['randomForest_mse'])
+print(f"Random Forest Average R2 Score: {randomForest_r2:.4f}")
+print(f"Random Forest Average Mean Squared Error: {randomForest_mse:.4f}")
+
+# SVR Average Results
+svr_r2 = np.mean(results['svr_r2'])
+svr_mse = np.mean(results['svr_mse'])
+print(f"SVR Average R2 Score: {svr_r2:.4f}")
+print(f"SVR Average Mean Squared Error: {svr_mse:.4f}")

@@ -14,9 +14,11 @@ def lstm_train_predict(x_train, y_train, x_test):
 
     Y_train_scaled = scaler_Y.fit_transform(y_train.values.reshape(-1, 1))
 
+    # Reshape the data
     X_train_scaled = X_train_scaled.reshape(X_train_scaled.shape[0], X_train_scaled.shape[1], 1)
     X_test_scaled = X_test_scaled.reshape(X_test_scaled.shape[0], X_test_scaled.shape[1], 1)
 
+    # Create the Neural Network Model
     model = Sequential()
     model.add(LSTM(100, activation='sigmoid', return_sequences=True, input_shape=(X_train_scaled.shape[1], 1)))
     model.add(Dropout(0.2))
