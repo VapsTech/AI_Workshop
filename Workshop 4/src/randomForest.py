@@ -16,10 +16,12 @@ def randomForest_train_predict(x_train, y_train, x_test):
         'criterion': ['mse', 'squared_error']
     }
 
+    gridSearch = GridSearchCV(estimator= model, param_grid= param_grid, cv= 3, n_jobs= -1, verbose= 2)
 
-    model.fit(x_train, y_train)
+    gridSearch.fit(x_train, y_train)
 
-    # Predictions
+    model = gridSearch.best_estimator_ # Get the BEST model
+
     predictions = model.predict(x_test)
 
     return predictions
