@@ -10,6 +10,7 @@ import os
 #Importing the Trained Models for Predictions 
 from src.lstm import lstm_train_predict
 from src.randomForest import randomForest_train_predict
+from src.svr import svr_train_predict
 
 #1) IMPORTING DATA ----------------------------------------------------------------------
 data = pd.read_csv('Workshop 4/data/stocks_data.csv')
@@ -35,11 +36,12 @@ stocks = data['Name'].unique() #Getting all different stocks in the Data
 features = ['open', 'high', 'low', 'volume', 'return', 'rolling_mean', 'rolling_std']
 target = 'close'
 
+#Dictionary to store the results for each model
 results = {'lstm_r2' : [], 'lstm_mse' : [],
            'randomForest_r2' : [], 'randomForest_mse' : [],
-           'svr_r2' : [], 'svr_mse' : []} #Dictionary to store the results for each model
+           'svr_r2' : [], 'svr_mse' : []} 
 
-for stock in stocks: #Iterating over each stock
+for stock in stocks: #Iterating over each stock to be predicted by each model
 
     # ---- Stock Data Preparation ----
     stock_data = data[data['Name'] == stock] #Getting the data for the stock
@@ -56,24 +58,24 @@ for stock in stocks: #Iterating over each stock
     dates_test_sorted = pd.to_datetime(dates_test.sort_index())
 
     # ---- LSTM Model ----
-    # Y_predictions = lstm_train_predict(X_train, Y_train, X_test_sorted)
+    Y_predictions = lstm_train_predict(X_train, Y_train, X_test_sorted)
 
-    # r2, mse = evaluate_model('LSTM', stock, y_test_sorted, Y_predictions)
+    r2, mse = evaluate_model('LSTM', stock, y_test_sorted, Y_predictions)
 
-    # results['lstm_r2'].append(r2)
-    # results['lstm_mse'].append(mse)
+    results['lstm_r2'].append(r2)
+    results['lstm_mse'].append(mse)
 
-    # plt.figure(figsize=(10, 6))
-    # plt.plot(dates_test_sorted, y_test_sorted.values, label='True Values', color='green')
-    # plt.plot(dates_test_sorted, Y_predictions, label='LSTM Predictions', color='purple')
-    # plt.title(f'{stock} - LSTM')
-    # plt.xlabel('Date')
-    # plt.ylabel('Stock Price')
-    # plt.legend()
-    # plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
-    # plt.gca().xaxis.set_major_locator(mdates.YearLocator())
-    # plt.savefig(os.path.join('Workshop 4/result/lstm_plots', f'{stock}_lstm.png'))
-    # plt.close()
+    plt.figure(figsize=(10, 6))
+    plt.plot(dates_test_sorted, y_test_sorted.values, label='True Values', color='green')
+    plt.plot(dates_test_sorted, Y_predictions, label='LSTM Predictions', color='purple')
+    plt.title(f'{stock} - LSTM')
+    plt.xlabel('Date')
+    plt.ylabel('Stock Price')
+    plt.legend()
+    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+    plt.gca().xaxis.set_major_locator(mdates.YearLocator())
+    plt.savefig(os.path.join('Workshop 4/result/lstm_plots', f'{stock}_lstm.png'))
+    plt.close()
 
     # ---- Random Forest Model ----
     Y_predictions = randomForest_train_predict(X_train, Y_train, X_test_sorted)
@@ -96,6 +98,24 @@ for stock in stocks: #Iterating over each stock
     plt.close()
 
     # ---- SVR (Support Vector Regressor) Model ----
+    Y_predictions = svr_train_predict(X_train, Y_train, X_test_sorted)
+
+    r2, mse = evaluate_model('SVR', stock, y_test_sorted, Y_predictions)
+
+    results['svr_r2'].append(r2)
+    results['svr_mse'].append(mse)
+
+    plt.figure(figsize=(10, 6))
+    plt.plot(dates_test_sorted, y_test_sorted.values, label='True Values', color='green')
+    plt.plot(dates_test_sorted, Y_predictions, label='SVR Predictions', color='purple')
+    plt.title(f'{stock} - SVR')
+    plt.xlabel('Date')
+    plt.ylabel('Stock Price')
+    plt.legend()
+    plt.gca().xaxis.set_major_formatter(mdates.DateFormatter('%Y'))
+    plt.gca().xaxis.set_major_locator(mdates.YearLocator())
+    plt.savefig(os.path.join('Workshop 4/result/svr_plots', f'{stock}_svr.png'))
+    plt.close()
 
 #4) PRINTING RESULTS ----------------------------------------------------------------
 print("Results:")
