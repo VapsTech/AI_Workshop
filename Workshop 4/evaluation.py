@@ -17,8 +17,7 @@ data = pd.read_csv('Workshop 4/data/stocks_data.csv')
 
 df = pd.DataFrame(data)
 
-#2) EVALUATION FUNCTION ----------------------------------------------------------------=
-
+#2) EVALUATION FUNCTION -----------------------------------------------------------------
 def evaluate_model(model, stock, Y_test, Y_predictions):
     print(f"{model} evaluation for {stock}:")
 
@@ -30,8 +29,7 @@ def evaluate_model(model, stock, Y_test, Y_predictions):
 
     return r2, mse
 
-#3) PREDICTING STOCK ---------------------------------------------------------------
-
+#3) PREDICTING STOCK --------------------------------------------------------------------
 stocks = data['Name'].unique() #Getting all different stocks in the Data
 features = ['open', 'high', 'low', 'volume', 'return', 'rolling_mean', 'rolling_std']
 target = 'close'
@@ -117,7 +115,7 @@ for stock in stocks: #Iterating over each stock to be predicted by each model
     plt.savefig(os.path.join('Workshop 4/result/svr_plots', f'{stock}_svr.png'))
     plt.close()
 
-#4) PRINTING RESULTS ----------------------------------------------------------------
+#4) PRINTING RESULTS --------------------------------------------------------------------
 print("Results:")
 
 # LSTM Average Results 
