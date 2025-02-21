@@ -31,3 +31,13 @@ In the third workshop, we cover a essential model in Machine Learning called Lin
 - House Price Predictor using Linear Regression
 - Intro to Neural Networks
 - Implementing Neural Networks in the House Price Predictor
+
+## Workshop 4: Stock Price Predictor
+### Overview:
+In the last workshop, we build a full project using three AI Models to predict stock prices in the market! Key concepts included are:
+
+- Data Preparation (Pandas, NumPy)
+- SVR Model (Scikit-Learn)
+- Random Forest Model (Scikit-Learn)
+- LSTM Model (Tensorflow)
+- Results Evaluation (MatPlotLib)
