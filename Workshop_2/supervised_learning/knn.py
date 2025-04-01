@@ -23,7 +23,7 @@ from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay #Used to se
 #Remeber to Install the libraries using "pip install <library>" to be able to access them
 
 #1) IMPORTING THE DATA ------------------------------------------------------------------
-df = pd.read_csv('Workshop 2/supervised_learning/data.csv') #df stands for DataFrame
+df = pd.read_csv('Workshop_2/supervised_learning/data.csv') #df stands for DataFrame
 
 print("Rows and Columns:", df.shape) #Get total number of rows and columns
 print("-" * 100)
